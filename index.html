@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Garima's Ultimate 1-Min Quiz ✨</title>
+  <title>Welcome to Garima's World ✨</title>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <style>
     * {
@@ -14,240 +14,409 @@
     }
 
     body {
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
+      color: #fff;
     }
 
-    .quiz-card {
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 25px;
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 24px;
+      padding: 30px;
       width: 100%;
-      max-width: 400px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      max-width: 450px;
       text-align: center;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
       position: relative;
+      overflow: hidden;
     }
 
-    .header-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* Sparkle Animated Text */
+    .sparkle-text {
+      font-size: 24px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #ff007f, #7f00ff, #ff007f);
+      background-size: 200% auto;
+      color: #fff;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 3s linear infinite;
       margin-bottom: 20px;
     }
 
-    .timer {
-      background: #ff4757;
-      color: white;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 14px;
+    /* Unique Glowing Thank You Text */
+    .glow-thankyou {
+      font-size: 32px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f, 0 0 40px #7f00ff;
+      animation: pulseGlow 2s infinite alternate;
+      margin: 15px 0;
     }
 
-    .score {
-      background: #2ed573;
-      color: white;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 14px;
+    @keyframes pulseGlow {
+      from { transform: scale(1); text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f; }
+      to { transform: scale(1.05); text-shadow: 0 0 20px #7f00ff, 0 0 40px #ff007f, 0 0 60px #7f00ff; }
     }
 
-    h2 {
-      color: #2f3542;
-      font-size: 20px;
+    @keyframes shine {
+      to { background-position: 200% center; }
+    }
+
+    p {
+      font-size: 16px;
+      color: #e0e0e0;
       margin-bottom: 20px;
-      min-height: 50px;
+      line-height: 1.5;
     }
 
-    .options {
+    .btn-group {
       display: flex;
-      flex-direction: column;
-      gap: 12px;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     .btn {
-      background: #70a1ff;
+      background: linear-gradient(45deg, #ff007f, #7f00ff);
       color: white;
       border: none;
-      padding: 14px;
-      border-radius: 12px;
+      padding: 12px 25px;
+      border-radius: 25px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 0, 127, 0.3);
     }
 
-    .btn:active {
-      transform: scale(0.98);
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 20px rgba(255, 0, 127, 0.5);
     }
 
-    .btn.correct {
-      background: #2ed573 !important;
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: none;
     }
 
-    .btn.wrong {
-      background: #ff4757 !important;
-    }
-
-    .start-btn {
-      background: #3742fa;
+    input[type="text"], select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.15);
       color: white;
-      padding: 15px 30px;
-      font-size: 18px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(55, 66, 250, 0.4);
+      font-size: 16px;
+      margin-bottom: 20px;
+      outline: none;
+    }
+
+    select option {
+      background: #302b63;
+      color: white;
+    }
+
+    /* Drawing Canvas */
+    canvas {
+      background: #ffffff;
+      border-radius: 15px;
+      cursor: crosshair;
+      touch-action: none;
+      margin-bottom: 20px;
     }
 
     .hidden {
-      display: none;
+      display: none !important;
     }
 
-    #result-screen h1 {
-      color: #3742fa;
-      font-size: 28px;
-      margin-bottom: 10px;
+    /* Popup Modal */
+    .modal {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 24px;
+      padding: 20px;
+      z-index: 10;
     }
 
-    #result-screen p {
-      font-size: 18px;
-      color: #57606f;
-      margin-bottom: 20px;
+    .modal-content {
+      background: #1f1a3a;
+      padding: 25px;
+      border-radius: 20px;
+      border: 1px solid #7f00ff;
     }
   </style>
 </head>
 <body>
 
-  <div class="quiz-card">
-    <!-- Start Screen -->
-    <div id="start-screen">
-      <h1 style="color: #ff4757; margin-bottom: 15px;">1-Minute Quiz Challenge! ⏱️</h1>
-      <p style="color: #57606f; margin-bottom: 25px;">60 seconds me maximum questions ke sahi answer dijiye!</p>
-      <button class="start-btn" onclick="startQuiz()">Start Game 🚀</button>
-    </div>
+  <!-- Background Music -->
+  <audio id="bg-music" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=ambient-piano-10786.mp3" type="audio/mpeg">
+  </audio>
 
-    <!-- Game Screen -->
-    <div id="game-screen" class="hidden">
-      <div class="header-bar">
-        <div class="timer">⏱️ <span id="time-left">60</span>s</div>
-        <div class="score">Score: <span id="score">0</span></div>
-      </div>
-      <h2 id="question">Question text here</h2>
-      <div class="options" id="options-container">
-        <!-- Buttons generated dynamically -->
+  <div class="card">
+
+    <!-- Modal Popup for Yes selection -->
+    <div id="yes-modal" class="modal hidden">
+      <div class="modal-content">
+        <h3 style="color: #ff007f; margin-bottom: 10px;">Haha! 😄</h3>
+        <p>We thought you wouldn't click YES so easily! Come on, let's begin! ✨</p>
+        <button class="btn" onclick="closeModalAndProceed()">Continue 🚀</button>
       </div>
     </div>
 
-    <!-- Result Screen -->
-    <div id="result-screen" class="hidden">
-      <h1>Time's Up! 🎉</h1>
-      <p>Aapka Final Score: <b><span id="final-score">0</span></b></p>
-      <button class="start-btn" onclick="startQuiz()">Play Again 🔄</button>
+    <!-- Slide 1: Welcome -->
+    <div id="slide-1">
+      <div class="sparkle-text">Are you ready to spend some time in Garima's World? ✨</div>
+      <div class="btn-group">
+        <button class="btn" onclick="handleYes()">YES! 😍</button>
+        <button class="btn btn-secondary" onclick="handleNo()">NO 😜</button>
+      </div>
     </div>
+
+    <!-- Slide 2: Name Input -->
+    <div id="slide-2" class="hidden">
+      <h2 style="margin-bottom: 15px;">Who is visiting today? 🤔</h2>
+      <p>Please enter your beautiful name:</p>
+      <input type="text" id="user-name" placeholder="Enter your name here..." autocomplete="off">
+      <button class="btn" onclick="saveName()">Next ➡️</button>
+    </div>
+
+    <!-- Slide 3: Relation Selection -->
+    <div id="slide-3" class="hidden">
+      <h2 style="margin-bottom: 15px;">Hello <span id="display-name" style="color:#ff007f;"></span>! 👋</h2>
+      <p>What is your relationship with Garima?</p>
+      <select id="user-relation">
+        <option value="" disabled selected>Choose relation...</option>
+        <option value="Chacha">Chacha</option>
+        <option value="Chachi">Chachi</option>
+        <option value="Papa">Papa</option>
+        <option value="Mummy">Mummy</option>
+        <option value="Bhai">Bhai</option>
+        <option value="Behen">Behen</option>
+        <option value="Dost">Dost</option>
+        <option value="Bua">Bua</option>
+      </select>
+      <button class="btn" onclick="saveRelation()">Next ➡️</button>
+    </div>
+
+    <!-- Slide 4: Drawing Canvas -->
+    <div id="slide-4" class="hidden">
+      <h2 style="margin-bottom: 10px;">Art Time! 🎨</h2>
+      <p>Draw something nice or leave your signature for Garima:</p>
+      <canvas id="paintCanvas" width="320" height="200"></canvas>
+      <br>
+      <button class="btn btn-secondary" onclick="clearCanvas()" style="padding: 6px 15px; font-size: 12px; margin-bottom: 15px;">Clear 🗑️</button>
+      <br>
+      <button class="btn" onclick="nextSlide(5)">Submit & Next ➡️</button>
+    </div>
+
+    <!-- Slide 5: Quiz Intro -->
+    <div id="slide-5" class="hidden">
+      <div class="sparkle-text">Challenge Time! 🧠✨</div>
+      <p style="font-size: 18px;">Dekhte hain aap Garima ke baare mein kitna jaante hain! 😎</p>
+      <button class="btn" onclick="nextSlide(6)">Start Quiz 🚀</button>
+    </div>
+
+    <!-- Slide 6: Quiz Question 1 -->
+    <div id="slide-6" class="hidden">
+      <p style="font-size: 14px; color: #7f00ff;">Question 1 / 4</p>
+      <h3 style="margin-bottom: 20px;">Garima ke channel ka naam kya hai? 📺</h3>
+      <div class="btn-group" style="flex-direction: column;">
+        <button class="btn btn-secondary" onclick="answerQuiz(0, 0, 7)">Garima Artistryy</button>
+        <button class="btn btn-secondary" onclick="answerQuiz(0, 1, 7)">Garima Art</button>
+        <button class="btn btn-secondary" onclick="answerQuiz(0, 2, 7)">Garima Creation</button>
+        <button class="btn btn-secondary" onclick="answerQuiz(0, 3, 7)">Garima World</button>
+      </div>
+    </div>
+
+    <!-- Slide 7: Quiz Question 2 -->
+    <div id="slide-7" class="hidden">
+      <p style="font-size: 14px; color: #7f00ff;">Question 2 / 4</p>
+      <h3 style="margin-bottom: 20px;">Garima ke paas 12th class mein konsi stream thi? 📚</h3>
+      <div class="btn-group" style="flex-direction: column;">
+        <button class="btn btn-secondary" onclick="answerQuiz(1, 0, 8)">PCM</button>
+        <button class="btn btn-secondary" onclick="answerQuiz(1, 1, 8)">PCB</button>
+        <button class="btn btn-secondary" onclick="answerQuiz(1, 2, 8)">Commerce</button>
+        <button class="btn btn-secondary" onclick="answerQuiz(1, 3, 8)">Arts</button>
+      </div>
+    </div>
+
+    <!-- Slide 8: Quiz Question 3 -->
+    <div id="slide-8" class="hidden">
+      <p style="font-size: 14px; color: #7f00ff;">Question 3 / 4</p>
+      <h3 style="margin-bottom: 20px;">Garima ka favourite subject konsa hai? 🔢</h3>
+      <div class="btn-group" style="flex-direction: column;">
+        <button class="btn btn-secondary" onclick="answerQuiz(2, 0, 9)">Math</button>
+        <button class="btn btn-secondary" onclick="answerQuiz(2, 2, 9)">Physics</button>
+        <button class="btn btn-secondary" onclick="answerQuiz(2, 2, 9)">English</button>
+        <button class="btn btn-secondary" onclick="answerQuiz(2, 3, 9)">History</button>
+      </div>
+    </div>
+
+    <!-- Slide 9: Quiz Question 4 -->
+    <div id="slide-9" class="hidden">
+      <p style="font-size: 14px; color: #7f00ff;">Question 4 / 4</p>
+      <h3 style="margin-bottom: 20px;">Garima ka dream kya hai? 🤖✨</h3>
+      <div class="btn-group" style="flex-direction: column;">
+        <button class="btn btn-secondary" onclick="answerQuiz(3, 0, 10)">AI Engineer</button>
+        <button class="btn btn-secondary" onclick="answerQuiz(3, 1, 10)">Doctor</button>
+        <button class="btn btn-secondary" onclick="answerQuiz(3, 2, 10)">Police Officer</button>
+        <button class="btn btn-secondary" onclick="answerQuiz(3, 3, 10)">Pilot</button>
+      </div>
+    </div>
+
+    <!-- Slide 10: Teaser Slide -->
+    <div id="slide-10" class="hidden">
+      <div class="sparkle-text" style="font-size: 26px;">Are you ready for something special? 🎁✨</div>
+      <p style="margin: 20px 0;">Hold your breath for the surprise! 🎶</p>
+      <button class="btn" onclick="nextSlide(11)">Yes, Show Me! 🌟</button>
+    </div>
+
+    <!-- Slide 11: Prank Slide -->
+    <div id="slide-11" class="hidden">
+      <div style="font-size: 50px; margin-bottom: 10px;">🤪😜</div>
+      <h2 style="color: #ff007f; margin-bottom: 15px; font-size: 26px;">Gotcha! 😂</h2>
+      <p style="font-size: 18px; line-height: 1.6;">Ye prank tha! Is series ko yahi end karte hain... 😉</p>
+      <button class="btn" onclick="showFinalResults()">See My Score Anyway 🏆</button>
+    </div>
+
+    <!-- Slide 12: Unique Thank You & Score Card -->
+    <div id="slide-12" class="hidden">
+      <div class="glow-thankyou">Thank You! ✨</div>
+      <h2 style="margin: 15px 0;">Dear <span id="final-name" style="color: #ff007f;"></span> (<span id="final-relation"></span>) ❤️</h2>
+      <p style="margin-top: 15px;">Aapka Quiz Score: <b style="font-size: 24px; color: #2ed573;"><span id="score-display">0</span> / 4</b></p>
+      <p>Thanks for spending your time in Garima's World! 💖</p>
+      <button class="btn" onclick="location.reload()">Play Again 🔄</button>
+    </div>
+
   </div>
 
   <script>
-    // Sound Effects
-    const correctSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3');
-    const wrongSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3');
-    const finishSound = new Audio('https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3');
-
-    const questions = [
-      { q: "HTML ka full form kya hai?", options: ["Hyper Text Markup Language", "High Tech Main Language", "Hyperlink Text Mark", "Home Tool Markup"], answer: 0 },
-      { q: "Websites ko stylish banane ke liye kya use hota hai?", options: ["Python", "CSS", "C++", "Java"], answer: 1 },
-      { q: "World Wide Web (WWW) kisse related hai?", options: ["Internet", "Offline Game", "Software", "Hardware"], answer: 0 },
-      { q: "Browser mein interactive actions ke liye kya use hota hai?", options: ["HTML", "CSS", "JavaScript", "SQL"], answer: 2 },
-      { q: "GitHub ka use kis kaam ke liye hota hai?", options: ["Photo Editing", "Code Hosting", "Video Editing", "Music Streaming"], answer: 1 }
-    ];
-
-    let currentQ = 0;
+    let userName = "";
+    let userRelation = "";
     let score = 0;
-    let timeLeft = 60;
-    let timerInterval;
+    
+    // Correct indices: Q1:0 (Garima Artistryy), Q2:0 (PCM), Q3:0 (Math), Q4:0 (AI Engineer)
+    const correctAnswers = [0, 0, 0, 0]; 
 
-    function startQuiz() {
-      score = 0;
-      timeLeft = 60;
-      currentQ = 0;
-      document.getElementById('score').innerText = score;
-      document.getElementById('time-left').innerText = timeLeft;
+    const music = document.getElementById('bg-music');
 
-      document.getElementById('start-screen').classList.add('hidden');
-      document.getElementById('result-screen').classList.add('hidden');
-      document.getElementById('game-screen').classList.remove('hidden');
-
-      startTimer();
-      showQuestion();
+    function playMusic() {
+      music.play().catch(() => {});
     }
 
-    function startTimer() {
-      timerInterval = setInterval(() => {
-        timeLeft--;
-        document.getElementById('time-left').innerText = timeLeft;
-        if (timeLeft <= 0) {
-          endQuiz();
-        }
-      }, 1000);
+    function handleYes() {
+      playMusic();
+      document.getElementById('yes-modal').classList.remove('hidden');
     }
 
-    function showQuestion() {
-      let qData = questions[currentQ % questions.length];
-      document.getElementById('question').innerText = qData.q;
-      const optionsContainer = document.getElementById('options-container');
-      optionsContainer.innerHTML = '';
+    function handleNo() {
+      playMusic();
+      alert("Aww, come on! You can't say NO to Garima's World! 😉 Click YES!");
+    }
 
-      qData.options.forEach((opt, index) => {
-        const btn = document.createElement('button');
-        btn.className = 'btn';
-        btn.innerText = opt;
-        btn.onclick = () => checkAnswer(index, btn);
-        optionsContainer.appendChild(btn);
+    function closeModalAndProceed() {
+      document.getElementById('yes-modal').classList.add('hidden');
+      nextSlide(2);
+    }
+
+    function nextSlide(slideNumber) {
+      document.querySelectorAll('.card > div').forEach(div => {
+        if (!div.classList.contains('modal')) div.classList.add('hidden');
       });
+      document.getElementById('slide-' + slideNumber).classList.remove('hidden');
+
+      if(slideNumber === 4) initCanvas();
     }
 
-    function checkAnswer(selectedIndex, btn) {
-      let qData = questions[currentQ % questions.length];
-      const allBtns = document.querySelectorAll('.btn');
-      allBtns.forEach(b => b.style.pointerEvents = 'none');
+    function saveName() {
+      const input = document.getElementById('user-name').value.trim();
+      if (!input) return alert("Please enter your name!");
+      userName = input;
+      document.getElementById('display-name').innerText = userName;
+      nextSlide(3);
+    }
 
-      if (selectedIndex === qData.answer) {
-        btn.classList.add('correct');
-        correctSound.currentTime = 0;
-        correctSound.play();
-        score += 10;
-        document.getElementById('score').innerText = score;
+    function saveRelation() {
+      const select = document.getElementById('user-relation').value;
+      if (!select) return alert("Please select your relation!");
+      userRelation = select;
+      nextSlide(4);
+    }
+
+    /* Drawing Canvas Setup */
+    let canvas, ctx, painting = false;
+
+    function initCanvas() {
+      canvas = document.getElementById('paintCanvas');
+      ctx = canvas.getContext('2d');
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#ff007f';
+
+      canvas.addEventListener('mousedown', startPosition);
+      canvas.addEventListener('mouseup', finishedPosition);
+      canvas.addEventListener('mousemove', draw);
+
+      canvas.addEventListener('touchstart', (e) => { startPosition(e.touches[0]); });
+      canvas.addEventListener('touchend', finishedPosition);
+      canvas.addEventListener('touchmove', (e) => { draw(e.touches[0]); e.preventDefault(); });
+    }
+
+    function startPosition(e) {
+      painting = true;
+      draw(e);
+    }
+
+    function finishedPosition() {
+      painting = false;
+      ctx.beginPath();
+    }
+
+    function draw(e) {
+      if (!painting) return;
+      const rect = canvas.getBoundingClientRect();
+      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    /* Quiz Evaluation */
+    function answerQuiz(qIndex, selectedOption, nextSlideNum) {
+      if (selectedOption === correctAnswers[qIndex]) {
+        score++;
         confetti({ particleCount: 30, spread: 60, origin: { y: 0.8 } });
-      } else {
-        btn.classList.add('wrong');
-        wrongSound.currentTime = 0;
-        wrongSound.play();
-        allBtns[qData.answer].classList.add('correct');
       }
-
-      setTimeout(() => {
-        currentQ++;
-        showQuestion();
-      }, 800);
+      nextSlide(nextSlideNum);
     }
 
-    function endQuiz() {
-      clearInterval(timerInterval);
-      finishSound.currentTime = 0;
-      finishSound.play();
-      confetti({ particleCount: 100, spread: 100, origin: { y: 0.6 } });
-
-      document.getElementById('game-screen').classList.add('hidden');
-      document.getElementById('result-screen').classList.remove('hidden');
-      document.getElementById('final-score').innerText = score;
+    function showFinalResults() {
+      document.getElementById('final-name').innerText = userName;
+      document.getElementById('final-relation').innerText = userRelation;
+      document.getElementById('score-display').innerText = score;
+      confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+      nextSlide(12);
     }
   </script>
 </body>
-</html>
+  </html>
+  
